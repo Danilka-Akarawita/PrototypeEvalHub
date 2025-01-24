@@ -11,8 +11,7 @@ A library for evaluating text using various metrics. This project includes a Str
 - **Diversity Score**: Measures the diversity of the text based on unique bigrams.
 - **Racial Bias Detection**: Detects potential racial bias in the text.
 - **MAUVE Score**: Measures the quality of text generation models.
-- **Sentiment Analysis**: Analyzes the sentiment of the text.
-- **SHAP Explanations**: Provides explanations for the sentiment analysis using SHAP.
+
 
 ## Installation
 
