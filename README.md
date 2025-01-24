@@ -13,9 +13,4 @@ A library for evaluating text using various metrics. This project includes a Str
 - **MAUVE Score**: Measures the quality of text generation models.
 
 
-## Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/text_evaluator.git
-   cd text_evaluator
