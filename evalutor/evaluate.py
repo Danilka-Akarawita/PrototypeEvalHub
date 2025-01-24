@@ -18,12 +18,30 @@ import openai
 
 class TextEvaluator:
     def __init__(self):
+        self.tokenizer = AutoTokenizer.from_pretrained("gpt2")
+        self.tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+        self.model = AutoModel.from_pretrained("gpt2")
+        self.model.resize_token_embeddings(len(self.tokenizer))
+        # if you wantt to use openai api you can uncomment the below line instead of using the  gpt2 model  pipeline
+        # openai.api_key = 'your_openai_api_key'  # Replace with your OpenAI API key
         self.bias_pipeline = pipeline("zero-shot-classification", model="Hate-speech-CNERG/dehatebert-mono-english")
-        openai.api_key = 'your_openai_api_key'  # Replace with your OpenAI API key
 
-    def get_gpt_embedding(self, text):
-        response = openai.Embedding.create(input=text, model="text-embedding-ada-002")
-        return response['data'][0]['embedding']
+    def load_gpt2_model(self):
+        model = GPT2LMHeadModel.from_pretrained("gpt2")
+        tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+        return model, tokenizer
+    
+    def get_embeddings(self, texts):
+        inputs = self.tokenizer(texts, return_tensors="pt", padding=True, truncation=True)
+        with torch.no_grad():
+            outputs = self.model(**inputs)
+        return outputs.last_hidden_state.mean(dim=1).numpy()
+    
+    # if you want to use openai api you can use the below function to get the embeddings
+    
+    # def get_gpt_embedding(self, text):
+    #     response = openai.Embedding.create(input=text, model="text-embedding-ada-002")
+    #     return response['data'][0]['embedding']
 
     
     def evaluate_bleu_rouge(self, candidates, references):
