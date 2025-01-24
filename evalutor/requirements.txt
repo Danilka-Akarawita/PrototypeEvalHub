@@ -1,0 +1,8 @@
+streamlit
+pandas
+transformers
+torch
+shap
+nltk
+mauve
+scikit-learn
